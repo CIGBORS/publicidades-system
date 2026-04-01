@@ -1,0 +1,52 @@
+version: "3.8"
+services:
+  app:
+    build: ./docker/php
+    container_name: laravel_app
+    volumes:
+      - ./backend:/var/www
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    networks:
+      - publicidade-net
+    command: php artisan serve --host=0.0.0.0 --port=8000
+
+  db:
+    image: postgres:15
+    container_name: postgres_db
+    restart: always
+    environment:
+      POSTGRES_DB: publicidade
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - publicidade-net
+
+  frontend:
+    image: node:20
+    container_name: angular_front
+    working_dir: /app
+    volumes:
+      - ./frontend/publicidade-front:/app
+      - /app/node_modules
+    command: sh -c "npm install && npx ng serve --host=0.0.0.0 --poll=500"
+    ports:
+      - "4200:4200"
+    depends_on:
+      - app
+    networks:
+      - publicidade-net
+
+networks:
+  publicidade-net:
+    driver: bridge
+
+volumes:
+  postgres_data:
+    driver: local

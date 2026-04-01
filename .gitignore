@@ -1,0 +1,12 @@
+# Laravel
+backend/vendor/
+backend/.env
+backend/storage/logs/
+backend/storage/app/public/
+
+# Angular
+frontend/publicidade-front/node_modules/
+frontend/publicidade-front/dist/
+
+# Docker
+postgres_data/
