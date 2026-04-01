@@ -1,12 +1,57 @@
-# Laravel
+# See http://help.github.com/ignore-files/ for more about ignoring files.
+
+# ========================
+# Laravel (Backend)
+# ========================
 backend/vendor/
 backend/.env
 backend/storage/logs/
 backend/storage/app/public/
 
-# Angular
-frontend/publicidade-front/node_modules/
+# ========================
+# Angular (Frontend)
+# ========================
 frontend/publicidade-front/dist/
+frontend/publicidade-front/tmp/
+frontend/publicidade-front/out-tsc/
+frontend/publicidade-front/bazel-out/
+frontend/publicidade-front/node_modules/
+frontend/publicidade-front/npm-debug.log
+frontend/publicidade-front/yarn-error.log
+frontend/publicidade-front/.angular/cache
+frontend/publicidade-front/.sass-cache/
+frontend/publicidade-front/connect.lock
+frontend/publicidade-front/coverage/
+frontend/publicidade-front/libpeerconnection.log
+frontend/publicidade-front/testem.log
+frontend/publicidade-front/typings/
 
+# ========================
 # Docker
+# ========================
 postgres_data/
+
+# ========================
+# IDEs and editors
+# ========================
+.idea/
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# Visual Studio Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.history/*
+
+# ========================
+# System files
+# ========================
+.DS_Store
+Thumbs.db

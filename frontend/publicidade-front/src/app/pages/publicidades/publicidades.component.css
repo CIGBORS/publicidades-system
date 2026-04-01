@@ -1,0 +1,147 @@
+:host {
+  display: block;
+}
+
+.card-publicidade {
+  background: #ffffff;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  transition: box-shadow 0.2s;
+}
+
+.card-publicidade:hover {
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.card-numero {
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: #495057;
+  min-width: 24px;
+}
+
+.card-imagem {
+  width: 64px;
+  height: 64px;
+  object-fit: cover;
+  border-radius: 6px;
+  background: #f0f0f0;
+}
+
+.card-imagem-placeholder {
+  width: 64px;
+  height: 64px;
+  border-radius: 6px;
+  background: #e9ecef;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #adb5bd;
+}
+
+.card-conteudo {
+  flex: 1;
+  min-width: 0;
+}
+
+.card-titulo {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #212529;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.card-descricao {
+  font-size: 0.85rem;
+  color: #6c757d;
+  margin-bottom: 8px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.card-estados {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+
+.card-data {
+  font-size: 0.8rem;
+  color: #6c757d;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.card-acoes {
+  display: flex;
+  align-items: center;
+}
+
+.secao-titulo {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #6c757d;
+  letter-spacing: 0.05em;
+  margin: 20px 0 12px;
+  text-transform: uppercase;
+}
+
+.container-principal {
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 24px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+}
+
+.header-pagina {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.header-pagina h1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #212529;
+}
+
+.filtros {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.estado-tag {
+  background: #e3f2fd;
+  color: #1565c0;
+  border-radius: 4px;
+  padding: 2px 8px;
+  font-size: 0.78rem;
+  font-weight: 500;
+}
+
+.vazio {
+  text-align: center;
+  padding: 48px 0;
+  color: #adb5bd;
+}
+
+.vazio i {
+  font-size: 2.5rem;
+  display: block;
+  margin-bottom: 12px;
+}

@@ -1,0 +1,205 @@
+<div class="container-principal">
+
+  <!-- Cabeçalho -->
+  <div class="header-pagina">
+    <h1>Gerenciamento de Publicidade</h1>
+    <button pButton label="Nova publicidade" icon="pi pi-plus"
+      (click)="abrirModalNovo()"></button>
+  </div>
+
+  <!-- Filtros -->
+  <div class="filtros">
+    <p-multiSelect
+      [options]="estadosOptions"
+      placeholder="Visualizar todos os Estados"
+      optionLabel="label"
+      optionValue="value"
+      [(ngModel)]="filtroEstados"
+      (onChange)="filtrar()"
+      [style]="{'min-width': '260px'}">
+    </p-multiSelect>
+
+    <span class="p-input-icon-right">
+      <i class="pi pi-search"></i>
+      <input pInputText type="text" placeholder="Buscar..."
+        [(ngModel)]="filtroBusca" (input)="filtrar()" />
+    </span>
+  </div>
+
+  <!-- Publicidades Ativas -->
+  <div *ngIf="publicidadesAtivasFiltradas.length > 0">
+    <div *ngFor="let pub of publicidadesAtivasFiltradas; let i = index" class="card-publicidade">
+      <span class="card-numero">{{ i + 1 }}</span>
+      <img *ngIf="pub.imagem" [src]="getImagemUrl(pub.imagem)" class="card-imagem" />
+      <div *ngIf="!pub.imagem" class="card-imagem-placeholder">
+        <i class="pi pi-image"></i>
+      </div>
+      <div class="card-conteudo">
+        <div class="card-titulo">
+          {{ pub.titulo }}
+          <p-tag value="Publicidade atual" severity="success"></p-tag>
+        </div>
+        <p class="card-descricao">{{ pub.descricao }}</p>
+        <div class="card-estados">
+          <span *ngFor="let estado of pub.estados" class="estado-tag">
+            {{ estado.descricao }}
+          </span>
+        </div>
+        <div class="card-data">
+          <i class="pi pi-calendar"></i>
+          Ativo até {{ pub.dt_fim | date:'dd/MM/yyyy' }}
+        </div>
+      </div>
+      <div class="card-acoes">
+        <p-menu #menu [popup]="true" [model]="getMenuItems(pub)"></p-menu>
+        <button pButton icon="pi pi-ellipsis-v" class="p-button-text p-button-secondary p-button-sm"
+          (click)="menu.toggle($event)"></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Outras Publicidades -->
+  <div *ngIf="publicidadesOutrasFiltradas.length > 0">
+    <p class="secao-titulo">Outras publicidades</p>
+    <div *ngFor="let pub of publicidadesOutrasFiltradas" class="card-publicidade">
+      <img *ngIf="pub.imagem" [src]="getImagemUrl(pub.imagem)" class="card-imagem" />
+      <div *ngIf="!pub.imagem" class="card-imagem-placeholder">
+        <i class="pi pi-image"></i>
+      </div>
+      <div class="card-conteudo">
+        <div class="card-titulo">{{ pub.titulo }}</div>
+        <p class="card-descricao">{{ pub.descricao }}</p>
+        <div class="card-estados">
+          <span *ngFor="let estado of pub.estados" class="estado-tag">
+            {{ estado.descricao }}
+          </span>
+        </div>
+        <div class="card-data">
+          <i class="pi pi-calendar"></i>
+          Será publicado em {{ pub.dt_inicio | date:'dd/MM/yyyy' }}
+        </div>
+      </div>
+      <div class="card-acoes">
+        <p-menu #menu [popup]="true" [model]="getMenuItems(pub)"></p-menu>
+        <button pButton icon="pi pi-ellipsis-v" class="p-button-text p-button-secondary p-button-sm"
+          (click)="menu.toggle($event)"></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Vazio -->
+  <div *ngIf="publicidadesAtivasFiltradas.length === 0 && publicidadesOutrasFiltradas.length === 0"
+    class="vazio">
+    <i class="pi pi-inbox"></i>
+    <p>Nenhuma publicidade encontrada</p>
+  </div>
+
+</div>
+
+<!-- Modal -->
+<p-dialog
+  [header]="modoEdicao ? 'Editar publicidade' : 'Nova publicidade'"
+  [(visible)]="modalVisivel"
+  [modal]="true"
+  [style]="{width: '580px'}"
+  [draggable]="false"
+  [resizable]="false">
+
+  <form [formGroup]="form" class="flex flex-column gap-3 pt-2">
+
+    <div class="flex flex-column gap-1">
+      <label class="font-medium">Estados contemplados <span class="text-red-500">*</span></label>
+      <p-multiSelect [options]="estadosOptions" formControlName="estados"
+        optionLabel="label" optionValue="value"
+        placeholder="Selecione os estados" [style]="{'width':'100%'}"></p-multiSelect>
+      <small class="text-red-500"
+        *ngIf="form.get('estados')?.invalid && form.get('estados')?.touched">
+        Campo obrigatório
+      </small>
+    </div>
+
+    <div class="flex flex-column gap-1">
+      <label class="font-medium">Título <span class="text-red-500">*</span></label>
+      <input pInputText formControlName="titulo" class="w-full" />
+      <small class="text-red-500"
+        *ngIf="form.get('titulo')?.invalid && form.get('titulo')?.touched">
+        Campo obrigatório
+      </small>
+    </div>
+
+    <div class="flex flex-column gap-1">
+      <label class="font-medium">Descrição <span class="text-red-500">*</span></label>
+      <textarea pInputTextarea formControlName="descricao" rows="3"
+        style="width:100%"></textarea>
+      <small class="text-red-500"
+        *ngIf="form.get('descricao')?.invalid && form.get('descricao')?.touched">
+        Campo obrigatório
+      </small>
+    </div>
+
+    <div class="grid">
+      <div class="col-6 flex flex-column gap-1">
+        <label class="font-medium">Título do botão <span class="text-red-500">*</span></label>
+        <input pInputText formControlName="titulo_botao_link" class="w-full" />
+        <small class="text-red-500"
+          *ngIf="form.get('titulo_botao_link')?.invalid && form.get('titulo_botao_link')?.touched">
+          Campo obrigatório
+        </small>
+      </div>
+      <div class="col-6 flex flex-column gap-1">
+        <label class="font-medium">Link do botão <span class="text-red-500">*</span></label>
+        <input pInputText formControlName="botao_link" class="w-full" />
+        <small class="text-red-500"
+          *ngIf="form.get('botao_link')?.invalid && form.get('botao_link')?.touched">
+          Campo obrigatório
+        </small>
+      </div>
+    </div>
+
+    <div class="grid">
+      <div class="col-6 flex flex-column gap-1">
+        <label class="font-medium">Data de publicação <span class="text-red-500">*</span></label>
+        <p-calendar formControlName="dt_inicio" dateFormat="dd/mm/yy"
+          [showIcon]="true" [style]="{'width':'100%'}"></p-calendar>
+        <small class="text-red-500"
+          *ngIf="form.get('dt_inicio')?.invalid && form.get('dt_inicio')?.touched">
+          Campo obrigatório
+        </small>
+      </div>
+      <div class="col-6 flex flex-column gap-1">
+        <label class="font-medium">Data final <span class="text-red-500">*</span></label>
+        <p-calendar formControlName="dt_fim" dateFormat="dd/mm/yy"
+          [showIcon]="true" [style]="{'width':'100%'}"></p-calendar>
+        <small class="text-red-500"
+          *ngIf="form.get('dt_fim')?.invalid && form.get('dt_fim')?.touched">
+          Campo obrigatório
+        </small>
+      </div>
+    </div>
+
+    <div class="flex flex-column gap-1">
+      <label class="font-medium">IMAGEM DA PUBLICIDADE</label>
+      <p-fileUpload mode="basic" accept="image/*" [auto]="true"
+        chooseLabel="Selecionar imagem"
+        (onSelect)="onImagemSelecionada($event)"></p-fileUpload>
+      <div *ngIf="imagemPreview" class="flex align-items-center gap-2 mt-2">
+        <img [src]="imagemPreview" width="48" height="48"
+          style="border-radius:6px; object-fit:cover" />
+        <span class="text-sm">{{ imagemSelecionada?.name || 'imagem atual' }}</span>
+        <button pButton icon="pi pi-trash" class="p-button-text p-button-danger p-button-sm"
+          (click)="imagemPreview = null; imagemSelecionada = null"></button>
+      </div>
+    </div>
+
+  </form>
+
+  <ng-template pTemplate="footer">
+    <button pButton label="Cancelar" icon="pi pi-times" class="p-button-outlined"
+      (click)="fecharModal()"></button>
+    <button pButton label="Confirmar" icon="pi pi-check"
+      (click)="salvar()"></button>
+  </ng-template>
+
+</p-dialog>
+
+<p-toast></p-toast>
