@@ -18,7 +18,6 @@ import { FileUploadModule } from 'primeng/fileupload';
 import { ToolbarModule } from 'primeng/toolbar';
 import { TagModule } from 'primeng/tag';
 import { MessageService } from 'primeng/api';
-import { EstadosComponent } from './pages/estados/estados.component';
 import { PublicidadesComponent } from './pages/publicidades/publicidades.component';
 import { AvatarModule } from 'primeng/avatar';
 import { FormsModule } from '@angular/forms';
@@ -28,7 +27,6 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
 @NgModule({
   declarations: [
     AppComponent,
-    EstadosComponent,
     PublicidadesComponent
   ],
     imports: [
